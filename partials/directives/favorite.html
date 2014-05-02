@@ -1,0 +1,7 @@
+<a href="{{favorite.href}}" target="_blank"  editMode="{{editMode}}" class="btn btn-lg {{favoriteType}}" role="button">
+	<span class="text-info" >
+		<i ng-if="icon.length" class="{{icon}}"></i>
+		{{menuName}}
+	</span> - {{favorite.name}}
+	<button ng-if="editMode" type="button" class="close" ng-click="removeFavorite(favorite, $event)">×</button>
+</a>

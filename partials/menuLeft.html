@@ -1,0 +1,27 @@
+<div class="sidebar-collapse">
+    <div class="menu-wrapper">
+        <ul class="nav" id="side-menu">
+            <li class="sidebar-search">
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" placeholder="Filtrer" ng-model="filter">
+                    
+                </div>
+                <!-- /input-group -->
+            </li>
+            <li>
+                <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+            </li>
+            <li ng-repeat="menu in menus" ng-class="{active: !menu.isCollapsed}" >
+                <a href="#" ng-click="menu.isCollapsed = !menu.isCollapsed" >
+                    <i ng-if="menu.icon.length" class="{{menu.icon}} "></i> {{menu.name}}<span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level" collapse="menu.isCollapsed">
+                    <li ng-repeat="link in menu.links | filter:filter" class="repeat-item" 
+                            ng-model="link" data-drag="true" data-drop="false" data-jqyoui-options="{revert: 'invalid', helper: 'clone'}" jqyoui-draggable="{placeholder: 'keep', animate:true, stack:true}">
+                        <a href="{{link.href}}" target="_blank" >{{link.name}}</a>
+                    </li>                
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

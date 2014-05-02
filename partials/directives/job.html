@@ -1,0 +1,17 @@
+<li ng-class-even="'timeline-inverted'"  class="repeat-item">
+    <div class="timeline-badge {{color}}"><i class="fa {{badge}}"></i></div>
+    <div class="timeline-panel">
+        <div class="timeline-heading">
+            <h4 class="timeline-title">{{job.name}}
+            <span ng-if="job.result.length" class="text-{{color}}"> - {{job.result | lowercase}}</span></h4>
+            <p>
+                <small class="text-muted"><i class="fa fa-time"></i> {{job.timestamp | date : 'dd/MM/yyyy à HH:mm:ss'}}</small>
+            </p>             
+            <p ng-if="job.description.length">{{job.description}}</p>
+            <p ng-if="!job.description.length">Pas de description, mais qu'est ce que c'est :  <a target="_blank" href="{{job.configureUrl}}"> -> ici</a></p>
+        </div>
+        <div class="timeline-body">
+            <a href="{{job.url}}" target="_blank">Vas voir le build</a>
+        </div>
+    </div>
+</li>
