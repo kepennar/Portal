@@ -126,7 +126,6 @@ angular.module('portail-qualif.services', [])
 .factory('Sonar', ['$http', '$q', 'Conf', function($http, $q, Conf) {
 	"use strict";
 	var sonarUrl;
-	 $http.defaults.useXDomain = true;
 
 	var loadConf = function() {		
 		return Conf.conf().then(function(conf) {
@@ -135,9 +134,11 @@ angular.module('portail-qualif.services', [])
 	};
 
 	var listApps = function() {
+		var defferedApps = $q.defer();
 		$http.get(sonarUrl + "/api/resources").success(function(data) {
-			console.log(data);
-		});	
+			defferedApps.resolve(data);
+		});
+		return defferedApps.promise;
 	};
 	return {		
 		init: loadConf,

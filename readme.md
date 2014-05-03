@@ -18,7 +18,9 @@ Example for Sonar :
 NameVirtualHost *:80
 <VirtualHost *:80>
     ProxyPreserveHost On
+    
     Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods' '*'
    
     ProxyPass /sonar http://localhost:9000/sonar
     ProxyPassReverse /sonar http://localhost:9000/sonar

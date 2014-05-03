@@ -7,7 +7,7 @@ angular.module('portail-qualif.controllers', [])
 		"use strict";
 		Links.headers.then(function(headers) {
 			$scope.headerApps = headers;
-		});	
+		});
 
 	}])
 	.controller('MenuLeftCtrl', ['$scope', 'Links', function($scope, Links) {
@@ -66,8 +66,18 @@ angular.module('portail-qualif.controllers', [])
 		getJobsResults();
 		$interval(getJobsResults, Jenkins.interval());
 	}])
-	.controller('SonarCtrl', ['$scope', 'Sonar', function($scope, Sonar) {
+	.controller('SonarCtrl', ['$scope', '$modal', 'Sonar', function($scope, $modal, Sonar) {
 		"use strict";
 		
-		Sonar.apps();
+		$scope.apps = [];
+		Sonar.apps().then(function(apps) {
+			$scope.apps = apps;
+		});
+
+		$scope.openSonarApp = function(app) {
+			var modalInstance = $modal.open({
+				controller: function ($scope) {$scope.appName = app.name;},
+		     	template: '<div class="modal-header"><h3 class="modal-title">Sonar analysis for {{appName}}</h3></div><div class="modal-body">Under developpement. It will come soon...</div>'
+		  	});
+		};
 	}]);

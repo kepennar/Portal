@@ -4,7 +4,13 @@
 	</div>
 	<!-- /.panel-heading -->
 	<div class="panel-body" collapse="isCollapsed" >
-		
+		<div class="row">
+		  <div class="col-xs-6 col-md-3" ng-repeat="app in apps | orderBy:'name'">
+		    <a href="#" class="thumbnail" ng-click="openSonarApp(app)">
+		      {{app.name}}
+		    </a>
+		  </div>
+		</div>
 	</div>
 	<!-- /.pannel-body -->
 </div>
