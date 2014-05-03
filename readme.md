@@ -12,7 +12,7 @@ Proxify behind Apache with CORS enabled
 
 Example for Sonar :
 
-'''
+```
 NameVirtualHost *:80
 <VirtualHost *:80>
     ProxyPreserveHost On
@@ -23,4 +23,4 @@ NameVirtualHost *:80
 
     ServerName localhost
 </VirtualHost>
-'''
+```
