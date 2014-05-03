@@ -38,17 +38,28 @@ module.exports = function (grunt) {
   // Project configuration.
   grunt.initConfig({
     connect: {
-      main: {
+      main : {  
         options: {
-          port: 9001
+          port: 9001,
+            middleware: function (connect) {
+              return [
+                function(req, res, next) {
+                  res.setHeader('Access-Control-Allow-Origin', '*');
+                  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+                  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+                  next();
+                }
+              ];
+            }
         }
       }
     },
+   
     watch: {
       main: {
         options: {
-            livereload: true,
-            spawn: false
+            spawn: false,
+            livereload: false
         },
         files: [createFolderGlobs(['*.js','*.less','*.html']),'!_SpecRunner.html','!.grunt'],
         tasks: [] //all the tasks are run dynamically during the watch event handler

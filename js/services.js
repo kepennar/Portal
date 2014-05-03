@@ -29,11 +29,11 @@ angular.module('portail-qualif.services', [])
 	
 	var getMenus = function() {
 		var deferredMenus = $q.defer();
-		if (menus.size) {
+		if (menus.length) {
 			deferredMenus.resolve(menus); 
 		} else {
 			$http.get('data/menus.json').success(function(data) {
-				menus =  data;
+				menus = data;
 				deferredMenus.resolve(data);
 			});
 		}	
@@ -54,7 +54,7 @@ angular.module('portail-qualif.services', [])
 	var getMenuInfoById = function(id) {
 		var deferredMenu = $q.defer();
 		getMenus().then(function(menus) {
-
+			
 			var datas = _(menus)
 			.filter(function(menu) {
 				return menu.menuId === id;
@@ -67,8 +67,8 @@ angular.module('portail-qualif.services', [])
 				};
 			});
 			deferredMenu.resolve(datas[0]);
-		});
-		return deferredMenu.promise;		
+		});	
+		return deferredMenu.promise;
 	};
 
 	return {
@@ -79,60 +79,68 @@ angular.module('portail-qualif.services', [])
 }])
 .factory('Jenkins', ['$http', '$q', 'Conf', function($http, $q, Conf) {
 	"use strict";
-	var jenkinsUrl = null, hoursToShow = null, loadedConf = false;
-	var deferredConf = $q.defer();
-	var upDeferred = $q.defer();
-
+	var jenkinsUrl = null, hoursToShow = null, jenkinsUpdateInterval = null;
+	
 	var loadConf = function() {		
-		Conf.conf().then(function(conf) {
+		return Conf.conf().then(function(conf) {
 			jenkinsUrl = conf.jenkinsUrl;
 			hoursToShow = conf.jenkinsIntervalToShow;
-			upDeferred.resolve(conf.jenkinsUpdateInterval);
-			loadedConf = true;
-			deferredConf.resolve(loadedConf);
+			jenkinsUpdateInterval = conf.jenkinsUpdateInterval;
 		});
 	};
-	
+	var getInterval = function() {
+		return jenkinsUpdateInterval;
+	};
 	var consult = function() {
 		var deferredJobs = $q.defer();
-		if (!loadedConf) {
-			loadConf();
-			deferredConf.promise.then(function() {
-				getJenkinsJobResult(deferredJobs);
-			});
-		} else {
-			getJenkinsJobResult(deferredJobs);
-		}
-		return deferredJobs;
-	};
-	var getJenkinsJobResult = function(deferredJobs) {
-		var defer = $q.defer();
-		$http.get(jenkinsUrl + "/api/json?tree=jobs[name,description,url]").success(function(data) {
-			defer.resolve(data.jobs);
-		});
 
 		var filteredJobs = [];
 		var now = Date.now();
 		var interval = 3600000 * hoursToShow;
-		defer.promise.then(function(jobs) {
-			_(jobs).each(function(job) {
-				$http.get(jenkinsUrl + "/job/" + job.name + "/lastCompletedBuild/api/json").success(function(jobDatas) {
-					if ((now - jobDatas.timestamp) < interval) {
+
+		var defer = $q.defer();
+		$http.get(jenkinsUrl + "/api/json?tree=jobs[name,description,url,lastCompletedBuild[timestamp]]")
+		.then(function(result) {
+			_(result.data.jobs).each(function(job) {
+				if ((now - job.lastCompletedBuild.timestamp) < interval) {
+					$http.get(jenkinsUrl + "/job/" + job.name + "/lastCompletedBuild/api/json").success(function(jobDatas) {
 						jobDatas.name = job.name;
 						jobDatas.description = job.description;
 						jobDatas.configureUrl = job.url + "configure";
 						filteredJobs.push(jobDatas);
-						deferredJobs.notify(filteredJobs);
-					}
-				});
+						deferredJobs.notify("New Job");
+					});
+				}
 			});
 			deferredJobs.resolve(filteredJobs);
 		});
-		
+		return deferredJobs;
 	};
-	loadConf();
+
 	return {
+		init: loadConf,
 		jobs : consult,
-		interval : upDeferred.promise
+		interval : getInterval
+	};
+}])
+.factory('Sonar', ['$http', '$q', 'Conf', function($http, $q, Conf) {
+	"use strict";
+	var sonarUrl;
+	 $http.defaults.useXDomain = true;
+
+	var loadConf = function() {		
+		return Conf.conf().then(function(conf) {
+			sonarUrl = conf.sonarUrl;
+		});
+	};
+
+	var listApps = function() {
+		$http.get(sonarUrl + "/api/resources").success(function(data) {
+			console.log(data);
+		});	
+	};
+	return {		
+		init: loadConf,
+		apps: listApps
 	};
 }]);

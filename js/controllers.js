@@ -26,6 +26,7 @@ angular.module('portail-qualif.controllers', [])
 		"use strict";
 		$scope.favorites= angular.fromJson(localStorage.favorites);
 		$scope.editMode = false;
+		
 		if (!$scope.favorites) {
 			$scope.favorites = [];
 		}
@@ -55,14 +56,18 @@ angular.module('portail-qualif.controllers', [])
 	}])
 	.controller('JenkinsCtrl', ['$scope', '$interval', 'Jenkins', function($scope, $interval, Jenkins) {
 		"use strict";
-		var updateInterval = Jenkins.interval.then(function(up) {
-			$interval(getJobsResults, up);
-		});
-		
+		$scope.isCollapsed = false;
+
 		var getJobsResults = function() {
 			Jenkins.jobs().promise.then(function(jobs) {
 				$scope.jobs= jobs;				
 			});
 		};
 		getJobsResults();
+		$interval(getJobsResults, Jenkins.interval());
+	}])
+	.controller('SonarCtrl', ['$scope', 'Sonar', function($scope, Sonar) {
+		"use strict";
+		
+		Sonar.apps();
 	}]);

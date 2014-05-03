@@ -1,12 +1,10 @@
 <div class="panel panel-default">
 	<div class="panel-heading collapsable" ng-click="isCollapsed = !isCollapsed">
-		<i class="fa fa-clock-o fa-fw"></i> Jenkins timeline
+		<i class="fa fa-eye fa-fw"></i> Sonar
 	</div>
 	<!-- /.panel-heading -->
 	<div class="panel-body" collapse="isCollapsed" >
-		<ul class="timeline">
-			<job ng-repeat="job in jobs | orderBy:'timestamp':true" ></job>
-		</ul>
+		
 	</div>
 	<!-- /.pannel-body -->
 </div>

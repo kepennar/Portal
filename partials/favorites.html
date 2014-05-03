@@ -1,39 +1,40 @@
-<div class="row">
-	<div class="col-lg-12">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<i class="fa fa-star fa-fw"></i> Favoris
-				<div class="pull-right">
-					<div class="btn-group">
-						<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-							Actions
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu pull-right" role="menu">
-							<li><a href="#" ng-click="editMode = !editMode">
-								<span ng-if="editMode"> Quitter mode edition</span>
-								<span ng-if="!editMode"> Editer</span>
-							</a> <li>
-							<li >
-								<a href="#" ng-if="editMode" ng-click="eraseFavorites()">
-								<span class="text-danger"> <i class="fa fa-exclamation-triangle"></i> Supprimer tout!</span>
-								</a> 
-							<li>
-						</ul>
-					</div>
-				</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<i class="fa fa-star fa-fw"></i> Favoris
+		<div class="pull-right">
+			<div class="btn-group">
+				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+					Actions
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu pull-right" role="menu">
+					<li><a href="#" ng-click="editMode = !editMode">
+						<span ng-if="editMode"> Quitter mode edition</span>
+						<span ng-if="!editMode"> Editer</span>
+					</a> <li>
+					<li >
+						<a href="#" ng-if="editMode" ng-click="eraseFavorites()">
+						<span class="text-danger"> <i class="fa fa-exclamation-triangle"></i> Supprimer tout!</span>
+						</a> 
+					<li>
+				</ul>
 			</div>
-			<!-- /.col-lg-12 -->
-			<!-- /.panel-heading -->
-			<div class="panel-body" ng-class="{editMode: editMode}" data-drop="{{!editMode}}" ng-model="favorites" data-jqyoui-options jqyoui-droppable="{onDrop:'dropCallback(favorites)'}" >
-				<div id="favorites-panel" class="favorites-panel" >
-					<favorite ng-repeat="favorite in favorites" data-drag="false"></favorite>
-					<div ng-if="!favorites.length" class="text-center text-info">
-						<span>Vous pouvez ajouter des favoris en glissant <strong>ICI</strong> des liens que vous trouverez just là, <strong>sur votre gauche</strong> ;)</span>
-					</div>
-				</div>
-			</div>
-			<!-- /.panel-body -->
 		</div>
 	</div>
+	<!-- /.col-lg-12 -->
+	<!-- /.panel-heading -->
+	<div class="panel-body" ng-class="{editMode: editMode}" ng-model="favorites" 
+		data-drop="{{editMode}}" data-jqyoui-options jqyoui-droppable="{onDrop:'dropCallback(favorites)'}" >
+		<div id="favorites-panel" class="favorites-panel" >
+			<favorite ng-repeat="favorite in favorites" data-drag="false"></favorite>
+			
+			<p ng-class="{hidden: !editMode}" class="pull-right"> <a class="btn btn-info" href="#" ng-click="editMode = !editMode">Quitter edition</a></p>
+			<div ng-if="!favorites.length" class="text-center text-info">
+				<p>Vous pouvez ajouter des favoris en glissant <strong>ICI</strong> des liens que vous trouverez <strong>sur votre gauche</strong> ;)</p>
+				<p>Pour ce faire, il faut activer le mode édition que vous trouverez juste au dessus dans le menu actions, <strong>en haut à droite</strong>.</p>
+			</div>
+		</div>
+	</div>
+	<!-- /.panel-body -->
 </div>
