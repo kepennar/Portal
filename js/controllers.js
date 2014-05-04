@@ -76,8 +76,17 @@ angular.module('portail-qualif.controllers', [])
 
 		$scope.openSonarApp = function(app) {
 			var modalInstance = $modal.open({
-				scope: $scope,
-				template: '<div class="modal-header"><h3 class="modal-title">Sonar analysis for {{appName}}</h3></div><div class="modal-body">Under developpement. It will come soon...</div>'
+				controller : 'SonarModalCtrl',
+				resolve: {
+					app: function () { 
+						return app; 
+					}
+				},
+				templateUrl: 'partials/modals/sonarAnalysis.html'
 			});
 		};
+	}])
+	.controller('SonarModalCtrl', ['$scope', '$modalInstance', 'app', function($scope, $modalInstance, app) {
+		"use strict";
+		$scope.app = app;
 	}]);
