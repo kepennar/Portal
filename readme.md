@@ -1,6 +1,6 @@
 #Angular portal
 
-![Screenshot](doc/portal.png?raw=true "Screenshot")
+![Screenshot](https://raw.githubusercontent.com/kepennar/Portal/master/doc/portal.png?raw=true "Screenshot")
 
 ## CORS problems
 
