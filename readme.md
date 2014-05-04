@@ -1,5 +1,7 @@
 #Angular portal
 
+![Screenshot](/doc/portal.png?raw=true "Screenshot")
+
 ## CORS problems
 
 ### Jenkins
