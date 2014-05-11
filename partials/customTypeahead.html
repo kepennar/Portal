@@ -1,0 +1,5 @@
+
+<a>
+	<i ng-if="match.model.icon.length" class="{{match.model.icon}}"></i>
+	<span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+</a>

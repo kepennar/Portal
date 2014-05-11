@@ -67,4 +67,14 @@ angular.module('portail-qualif.directives', []).
 	  }
 	};
   }])
+  .directive("typeaheadWatchChanges", function() {
+	  return {
+	    require: ["ngModel"],
+	    link: function(scope, element, attr, ctrls) {
+			scope.$watch(attr.ngModel, function(value) {
+				ctrls[0].$setViewValue(value);
+			});
+	    }
+	  };
+	})
   ;

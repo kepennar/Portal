@@ -22,7 +22,7 @@ angular.module('portail-qualif.controllers', [])
 			});
 		});
 	}])
-	.controller('FavoritesCtrl', ['$scope', function($scope) {
+	.controller('FavoritesCtrl', ['$scope', '$modal',  function($scope, $modal) {
 		"use strict";
 		$scope.favorites= angular.fromJson(localStorage.favorites);
 		$scope.editMode = false;
@@ -30,7 +30,21 @@ angular.module('portail-qualif.controllers', [])
 		if (!$scope.favorites) {
 			$scope.favorites = [];
 		}
-		
+		$scope.addCustomFavorite=function() {
+			var modalInstance = $modal.open({
+				controller : 'FavoriteModalCtrl',
+				templateUrl: 'partials/modals/addCustomFavorite.html'
+			});
+			modalInstance.result.then(function (customFavorite) {
+				var favorite = {
+					name: customFavorite.name,
+					href: customFavorite.href,
+					menuId:customFavorite.type.menuId
+				}
+				$scope.favorites.push(favorite);
+		    	localStorage.favorites = angular.toJson(customFavorite);
+		    });
+		};
 		$scope.removeFavorite = function(favorite, $event) {
 	
 			$scope.favorites = _.without($scope.favorites, favorite);
@@ -42,8 +56,7 @@ angular.module('portail-qualif.controllers', [])
 				$event.preventDefault();
 			}
 			$event.cancelBubble = true;
-			$event.returnValue = false;
-			
+			$event.returnValue = false;			
 		};
 		$scope.eraseFavorites = function() {
 			localStorage.favorites = angular.toJson([]);
@@ -53,6 +66,25 @@ angular.module('portail-qualif.controllers', [])
 		  localStorage.favorites = angular.toJson(favorites);
 		};
 
+	}])
+	.controller('FavoriteModalCtrl', ['$scope', '$modalInstance', 'Links', function($scope, $modalInstance, Links) {
+		"use strict";
+		$scope.customLink = {};
+
+		Links.menuTypes.then(function(menuTypes) {
+			$scope.types = menuTypes;
+		});
+		$scope.shadowInput= function($event) {
+			$scope.customLink.type = '';
+		};
+
+		$scope.ok = function () {
+			$modalInstance.close($scope.customLink);
+		};
+
+		$scope.cancel = function () {
+			$modalInstance.dismiss('cancel');
+		};
 	}])
 	.controller('JenkinsCtrl', ['$scope', '$interval', 'Jenkins', function($scope, $interval, Jenkins) {
 		"use strict";

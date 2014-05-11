@@ -14,6 +14,11 @@
 						<span ng-if="!editMode"> Editer</span>
 					</a> <li>
 					<li >
+						<a href="#" ng-if="editMode" ng-click="addCustomFavorite()">
+						<span class="text-primary"> <i class="fa fa-plus-circle"></i> Ajouter lien personnel</span>
+						</a> 
+					<li>
+					<li >
 						<a href="#" ng-if="editMode" ng-click="eraseFavorites()">
 						<span class="text-danger"> <i class="fa fa-exclamation-triangle"></i> Supprimer tout!</span>
 						</a> 
