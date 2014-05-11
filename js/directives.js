@@ -23,8 +23,13 @@ angular.module('portail-qualif.directives', []).
 				favoriteType = "btn-info";
 			}
 			$scope.favoriteType = favoriteType;
-			$scope.icon = menuInfo.icon;
-			$scope.menuName = menuInfo.name;
+			if (menuInfo) {				
+				$scope.icon = menuInfo.icon;
+				$scope.menuName = menuInfo.name;
+			} else {
+				$scope.menuName = link.menuName;
+			}
+			
 		});
 		return favoriteType;
 	};
@@ -67,4 +72,14 @@ angular.module('portail-qualif.directives', []).
 	  }
 	};
   }])
+  .directive("typeaheadWatchChanges", function() {
+	  return {
+	    require: ["ngModel"],
+	    link: function(scope, element, attr, ctrls) {
+			scope.$watch(attr.ngModel, function(value) {
+				ctrls[0].$setViewValue(value);
+			});
+	    }
+	  };
+	})
   ;
