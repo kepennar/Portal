@@ -77,7 +77,6 @@ angular.module('portail-qualif.controllers', [])
 		Links.menuTypes.then(function(menuTypes) {
 			$scope.types = menuTypes;
 		});
-
 		$scope.ok = function () {
 			$modalInstance.close($scope.customLink);
 		};
