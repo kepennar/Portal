@@ -1,0 +1,14 @@
+{
+	"dev": {
+		"jenkinsUrl" : "http://localhost:8080",
+		"jenkinsIntervalToShow" : 3.5,
+		"jenkinsUpdateInterval": 10000,
+		"sonarUrl" : "http://localhost/sonar"
+	},
+	"integ": {
+		"jenkinsUrl" : "http://integ-server.org:8080",
+		"jenkinsIntervalToShow" : 24,
+		"jenkinsUpdateInterval": 30000,
+		"sonarUrl" : "http://integ-server.org:9000"
+	}
+}

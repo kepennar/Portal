@@ -1,0 +1,121 @@
+[
+	{
+		"name": "Applications",
+        "isCollapsed" : true,
+        "icon" : "fa fa-qrcode",
+        "menuId" : 1,
+		"links" : [
+			{
+                "menuId": 1,
+                "href": "http://integ-server.org",
+                "name": "public-front"
+            },
+            {
+                "menuId": 1,
+                "href": "http://integ-server.org",
+                "name": "Backend-dashboard"
+            },
+            {
+                "menuId": 1,
+                "href": "http://integ-server.org",
+                "name": "Backend-admin"
+            },
+            {
+                "menuId": 1,
+                "href": "http://integ-server.org",
+                "name": "Analytics"
+            },
+            {
+                "menuId": 1,
+                "href": "http://integ-server.org",
+                "name": "ElasticSearch-Marvel"
+            },
+            {
+                "menuId": 1,
+                "href": "http://integ-server.org",
+                "name": "Analytics"
+            }
+		]
+	},
+    {
+        "name" : "Logs",
+        "isCollapsed" : true,        
+        "icon" : "fa fa-file-text-o",
+        "menuId" : 2,
+        "links" : [
+            {
+                "menuId": 2,
+                "href": "http://integ-server.org",
+                "name": "Kibana"
+            },
+            {
+                "menuId": 2,
+                "href": "http://integ-server.org",
+                "name": "public-front"
+            },
+            {
+                "menuId": 2,
+                "href": "http://integ-server.org",
+                "name": "Backend-admin"
+            }
+        ]
+    },
+    {
+        "name" : "Tools",
+        "isCollapsed" : true,
+        "icon" : "fa fa-cog",
+        "menuId" : 6,
+        "links" : [
+            {
+                "menuId": 6,
+                "href": "http://integ-server.org",
+                "name": "XWiki"
+            },
+            {
+                "menuId": 6,
+                "href": "http://integ-server.org",
+                "name": "Jenkins"
+            },
+            {
+                "menuId": 6,
+                "href": "http://nexus.dsi.damgm.i2",
+                "name": "Nexus"
+            },
+            {
+                "menuId": 6,
+                "href": "http://integ-server.org",
+                "name": "Mantis"
+            },
+            {
+                "menuId": 6,
+                "href": "http://integ-server.org",
+                "name": "Phabricator"
+            },
+            {
+                "menuId": 6,
+                "href": "http://integ-server.org",
+                "name": "Sonar"
+            },
+            {
+                "menuId": 6,
+                "href": "http://integ-server.org",
+                "name": "Squash TM"
+            },
+            {
+                "menuId": 6,
+                "href": "http://integ-server.org",
+                "name": "SVN"
+            },
+            {
+                "menuId": 6,
+                "href": "http://integ-server.org",
+                "name": "Testlink"
+            },
+            {
+                "menuId": 6,
+                "href": "http://integ-server.org",
+                "name": "Portfolio"
+            }
+        ]
+    }
+]
