@@ -1,6 +1,6 @@
 {
   "name": "portail-qualif",
-  "version": "1.0.0.B1",
+  "version": "1.0.0.B2",
   "main": "index.html",
   "ignore": [
     "**/.*",
