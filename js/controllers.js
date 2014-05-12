@@ -36,15 +36,7 @@ angular.module('portail-qualif.controllers', [])
 				templateUrl: 'partials/modals/addCustomFavorite.html'
 			});
 			modalInstance.result.then(function (customFavorite) {
-				var favorite = {
-					name: customFavorite.name,
-					href: customFavorite.href,
-					menuId:customFavorite.type.menuId
-				}
-				if (!customFavorite.type.menuId) {
-					favorite.menuName = customFavorite.type;
-				}
-				$scope.favorites.push(favorite);
+				$scope.favorites.push(customFavorite);
 				localStorage.favorites = angular.toJson($scope.favorites);
 			});
 		};
@@ -78,7 +70,22 @@ angular.module('portail-qualif.controllers', [])
 			$scope.types = menuTypes;
 		});
 		$scope.ok = function () {
-			$modalInstance.close($scope.customLink);
+			var menuId = -1, menuName= '';
+			// If an existing menu has been selected
+			if ($scope.customLink.type.menuId) {
+				menuId = $scope.customLink.type.menuId;
+				menuName = $scope.customLink.type.name;
+			} else {
+				menuName = $scope.customLink.type;
+			}
+
+			var favorite = {
+				name: $scope.customLink.name,
+				href: $scope.customLink.href,
+				menuId: menuId,
+				menuName: menuName
+			};
+			$modalInstance.close(favorite);
 		};
 
 		$scope.cancel = function () {

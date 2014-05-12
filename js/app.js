@@ -47,7 +47,7 @@ angular.module('portail-qualif').config(function($stateProvider, $urlRouterProvi
 });
 
 angular.module('portail-qualif').run(function($rootScope) {
-    $rootScope.mode = 'dev';
+    $rootScope.mode = 'integ';
     
     $rootScope.safeApply = function(fn) {
         var phase = $rootScope.$$phase;

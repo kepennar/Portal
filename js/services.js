@@ -61,15 +61,19 @@ angular.module('portail-qualif.services', [])
 	};
 	var getMenuInfoById = function(id) {
 		var deferredMenu = $q.defer();
-		getMenus().then(function(menus) {
-			
-			var datas = _(menus)
-			.filter(function(menu) {
-				return menu.menuId === id;
-			})
-			.map(mapMenuToMenuInfo);
-			deferredMenu.resolve(datas[0]);
-		});	
+		if (id === -1) {
+			deferredMenu.resolve(null);	
+		} else {
+			getMenus().then(function(menus) {
+				var datas = _(menus)
+				.filter(function(menu) {
+					return menu.menuId === id;
+				})
+				.map(mapMenuToMenuInfo);
+				deferredMenu.resolve(datas[0]);
+			});	
+		}
+		
 		return deferredMenu.promise;
 	};
 

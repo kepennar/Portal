@@ -9,7 +9,9 @@ angular.module('portail-qualif.directives', []).
 		var id = link.menuId;
 		Links.menuById(id).then(function(menuInfo) {
 			var favoriteType = "";
-			if (id === 1) {
+			if (id === -1) {
+				favoriteType = "btn-custom";
+			} else if (id === 1) {
 				favoriteType = "btn-success";
 			} else if (id === 2) {
 				favoriteType = "btn-warning";
