@@ -22,7 +22,7 @@ angular.module('portail-qualif.controllers', [])
 			});
 		});
 	}])
-	.controller('FavoritesCtrl', ['$scope', function($scope) {
+	.controller('FavoritesCtrl', ['$scope', '$modal',  function($scope, $modal) {
 		"use strict";
 		$scope.favorites= angular.fromJson(localStorage.favorites);
 		$scope.editMode = false;
@@ -30,7 +30,16 @@ angular.module('portail-qualif.controllers', [])
 		if (!$scope.favorites) {
 			$scope.favorites = [];
 		}
-		
+		$scope.addCustomFavorite=function() {
+			var modalInstance = $modal.open({
+				controller : 'FavoriteModalCtrl',
+				templateUrl: 'partials/modals/addCustomFavorite.html'
+			});
+			modalInstance.result.then(function (customFavorite) {
+				$scope.favorites.push(customFavorite);
+				localStorage.favorites = angular.toJson($scope.favorites);
+			});
+		};
 		$scope.removeFavorite = function(favorite, $event) {
 	
 			$scope.favorites = _.without($scope.favorites, favorite);
@@ -42,8 +51,7 @@ angular.module('portail-qualif.controllers', [])
 				$event.preventDefault();
 			}
 			$event.cancelBubble = true;
-			$event.returnValue = false;
-			
+			$event.returnValue = false;			
 		};
 		$scope.eraseFavorites = function() {
 			localStorage.favorites = angular.toJson([]);
@@ -53,6 +61,36 @@ angular.module('portail-qualif.controllers', [])
 		  localStorage.favorites = angular.toJson(favorites);
 		};
 
+	}])
+	.controller('FavoriteModalCtrl', ['$scope', '$modalInstance', 'Links', function($scope, $modalInstance, Links) {
+		"use strict";
+		$scope.customLink = {};
+
+		Links.menuTypes.then(function(menuTypes) {
+			$scope.types = menuTypes;
+		});
+		$scope.ok = function () {
+			var menuId = -1, menuName= '';
+			// If an existing menu has been selected
+			if ($scope.customLink.type.menuId) {
+				menuId = $scope.customLink.type.menuId;
+				menuName = $scope.customLink.type.name;
+			} else {
+				menuName = $scope.customLink.type;
+			}
+
+			var favorite = {
+				name: $scope.customLink.name,
+				href: $scope.customLink.href,
+				menuId: menuId,
+				menuName: menuName
+			};
+			$modalInstance.close(favorite);
+		};
+
+		$scope.cancel = function () {
+			$modalInstance.dismiss('cancel');
+		};
 	}])
 	.controller('JenkinsCtrl', ['$scope', '$interval', 'Jenkins', function($scope, $interval, Jenkins) {
 		"use strict";

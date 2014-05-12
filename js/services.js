@@ -51,29 +51,44 @@ angular.module('portail-qualif.services', [])
 		}	
 		return deferredheaders.promise;	
 	};
-	var getMenuInfoById = function(id) {
+	var getMenuTypes = function() {
 		var deferredMenu = $q.defer();
 		getMenus().then(function(menus) {
-			
-			var datas = _(menus)
-			.filter(function(menu) {
-				return menu.menuId === id;
-			})
-			.map(function(menu) {
-				return {
-					menuId : menu.menuId,
-					name: menu.name,
-					icon : menu.icon     
-				};
-			});
-			deferredMenu.resolve(datas[0]);
-		});	
+			var datas = _(menus).map(mapMenuToMenuInfo);
+			deferredMenu.resolve(datas);
+		});
 		return deferredMenu.promise;
+	};
+	var getMenuInfoById = function(id) {
+		var deferredMenu = $q.defer();
+		if (id === -1) {
+			deferredMenu.resolve(null);	
+		} else {
+			getMenus().then(function(menus) {
+				var datas = _(menus)
+				.filter(function(menu) {
+					return menu.menuId === id;
+				})
+				.map(mapMenuToMenuInfo);
+				deferredMenu.resolve(datas[0]);
+			});	
+		}
+		
+		return deferredMenu.promise;
+	};
+
+	var mapMenuToMenuInfo = function(menu){
+		return {
+			menuId : menu.menuId,
+			name: menu.name,
+			icon : menu.icon     
+		};
 	};
 
 	return {
 		menus : getMenus(),
 		headers : getHeaders(),
+		menuTypes : getMenuTypes(),
 		menuById: getMenuInfoById
 	};
 }])

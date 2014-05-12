@@ -2,8 +2,7 @@
 @import "../bower_components/font-awesome/less/font-awesome.less";
 @import "3L/3L.less";
 @import "plugins/timeline/timeline.less";
-
-@fa-font-path: "../bower_components/font-awesome/fonts";
+@import "variables.less";
 
 /* Component LESS */
 /* Add Component LESS Above */
@@ -225,6 +224,15 @@
     color: #fff;
 }
 
+.btn-custom {
+    color: #fff;
+    background-color: @dark-green;
+    border-color: darken(@dark-green, 10%);
+
+    .text-info {
+        color: #B9D6E4;
+    }
+}
 /* Pages */
 
 /* ------------------------------- */
