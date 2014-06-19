@@ -1,4 +1,4 @@
-#Angular portal
+#Angular portal [![build status](https://api.travis-ci.org/kepennar/Portal.svg)](https://travis-ci.org/kepennar/Portal)
 
 ## CORS problems
 
