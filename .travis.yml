@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+- '0.10'
+# branches:
+  # only:
+  # - master
+before_install:
+- gem update --system
+- npm install -g grunt-cli
+- npm install -g bower
+install: npm install
+before_script:
+- bower install
+- grunt build
+
+env:
+  global:
+    secure: YeAOB2d5QTDVLpuda3j39CpdrpscYkvMw1qFuyFs/D+2uPf+7+T3eIObSn1TdaAkitWwUMdd3rDRFLg2pbKOqpOo0eDPv6cdutcEfXCBnB2CXagBMicRu7JpLdTv8OVWd4ecUr30noRzdmVeYsrvGoDaxz7b+zMZylbgsKxCbJE=
+
+
+after_success:
+- cd $TRAVIS_BUILD_DIR/dist/
+- find . -type f -exec curl -u $DEPLOY_USERNAME:$DEPLOY_PASSWORD --ftp-create-dirs -T {} $DEPLOY_HOST/$DEPLOY_REMOTEDIR/{} \;
+
