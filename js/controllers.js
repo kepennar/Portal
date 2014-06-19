@@ -95,14 +95,40 @@ angular.module('portail-qualif.controllers', [])
 	.controller('JenkinsCtrl', ['$scope', '$interval', 'Jenkins', function($scope, $interval, Jenkins) {
 		"use strict";
 		$scope.isCollapsed = false;
+		var stop;
 
 		var getJobsResults = function() {
 			Jenkins.jobs().promise.then(function(jobs) {
 				$scope.jobs= jobs;				
 			});
 		};
-		getJobsResults();
-		$interval(getJobsResults, Jenkins.interval());
+		var startRequests = function() {
+			if ( angular.isDefined(stop) ) {
+				return;
+			}
+			getJobsResults();
+			stop = $interval(getJobsResults, Jenkins.interval());
+		};
+		var stopRequests = function() {
+			if (angular.isDefined(stop)) {
+				$interval.cancel(stop);
+				stop = undefined;
+			}
+		};
+		
+		$scope.$watch('isCollapsed', function (newVal) {
+			if (newVal) {
+				stopRequests();
+			} else {
+				startRequests();
+			}
+		});
+
+		$scope.$on('$destroy', function() {
+			stop();
+		});
+
+		
 	}])
 	.controller('SonarCtrl', ['$scope', '$modal', 'Sonar', function($scope, $modal, Sonar) {
 		"use strict";
@@ -127,4 +153,9 @@ angular.module('portail-qualif.controllers', [])
 	.controller('SonarModalCtrl', ['$scope', '$modalInstance', 'app', function($scope, $modalInstance, app) {
 		"use strict";
 		$scope.app = app;
+	}])
+	.controller('FeedsCtrl', ['$scope', '$modal', 'Feeds', function($scope, $modal, Feeds) {
+		"use strict";
+		
+		
 	}]);

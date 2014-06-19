@@ -3,7 +3,10 @@
 		"jenkinsUrl" : "http://localhost:8080",
 		"jenkinsIntervalToShow" : 3.5,
 		"jenkinsUpdateInterval": 10000,
-		"sonarUrl" : "http://localhost/sonar"
+		"sonarUrl" : "http://localhost/sonar",
+		"defaultFeeds" : [
+			"http://rss.cnn.com/rss/cnn_topstories.rss"
+		]
 	},
 	"integ": {
 		"jenkinsUrl" : "http://integ-server.org:8080",

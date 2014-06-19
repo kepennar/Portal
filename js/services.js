@@ -159,4 +159,22 @@ angular.module('portail-qualif.services', [])
 		init: loadConf,
 		apps: listApps
 	};
+}])
+.factory('Feeds', ['$http', '$q', 'Conf', function($http, $q, Conf) {
+	"use strict";
+	var defaultFeeds;
+
+	var loadConf = function() {		
+		return Conf.conf().then(function(conf) {
+			defaultFeeds = conf.defaultFeeds;
+		});
+	};
+
+	var feeds = function() {
+		
+	};
+	return {		
+		init: loadConf,
+		feeds: feeds
+	};
 }]);

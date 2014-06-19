@@ -38,7 +38,8 @@ angular.module('portail-qualif').config(function($stateProvider, $urlRouterProvi
             'menuLeftView': { templateUrl: 'partials/menuLeft.html', controller: 'MenuLeftCtrl'},
             'favoritesView': { templateUrl: 'partials/favorites.html', controller: 'FavoritesCtrl'},
             'jenkinsView': { templateUrl: 'partials/jenkins.html', controller: 'JenkinsCtrl', resolve: {init : 'JenkinsInitializer'}},
-            'sonarView': { templateUrl: 'partials/sonar.html', controller: 'SonarCtrl', resolve: {init : 'SonarInitializer'}}
+            'sonarView': { templateUrl: 'partials/sonar.html', controller: 'SonarCtrl', resolve: {init : 'SonarInitializer'}},
+            'feedsView': { templateUrl: 'partials/feeds.html', controller: 'FeedsCtrl', resolve: {init : 'SonarInitializer'}}
           }
         });
 
@@ -47,7 +48,7 @@ angular.module('portail-qualif').config(function($stateProvider, $urlRouterProvi
 });
 
 angular.module('portail-qualif').run(function($rootScope) {
-    $rootScope.mode = 'integ';
+    $rootScope.mode = 'dev';
     
     $rootScope.safeApply = function(fn) {
         var phase = $rootScope.$$phase;
