@@ -1,6 +1,7 @@
 {
   "name": "portail-qualif",
   "version": "1.0.2",
+  "profile": "dev",
   "devDependencies": {
     "grunt": "~0.4",
     "grunt-dom-munger": "~3.4",
