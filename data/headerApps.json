@@ -1,0 +1,32 @@
+[
+	{
+		"name": "Jenkins",
+		"link": "http://integ-server.org/jenkins",
+		"icon": "fa fa-cog"
+	},
+	{
+		"name": "Git",
+		"link": "http://integ-server.org/git/",
+		"icon": "fa fa-code"
+	},
+	{
+		"name": "Nexus",
+		"link": "http://integ-server.org/nexus/",
+		"icon": "fa fa-bars"
+	},
+	{
+		"name": "Sonar",
+		"link": "http://integ-server.org/sonar",
+		"icon": "fa fa-bar-chart-o"
+	},
+	{
+		"name": "Jira",
+		"link": "http://integ-server.org/jira",
+		"icon": "fa fa-bug"
+	},
+	{
+		"name": "Wiki",
+		"link": "http://xwiki.integ-server.org",
+		"icon": "fa fa-book"
+	}
+]

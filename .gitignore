@@ -3,4 +3,4 @@ bower_components
 data
 dist
 travis.log
-
+npm-debug.log
