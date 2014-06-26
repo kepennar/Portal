@@ -8,15 +8,16 @@ var pkg = require('./package.json');
 //this method is used to create a set of inclusive patterns for all subdirectories
 //skipping node_modules, bower_components, dist, and any .dirs
 //This enables users to create any directory structure they desire.
-var createFolderGlobs = function(fileTypePatterns) {
+var createFolderGlobs = function(folder, fileTypePatterns) {
   fileTypePatterns = Array.isArray(fileTypePatterns) ? fileTypePatterns : [fileTypePatterns];
-  var ignore = ['node_modules','bower_components','dist','temp'];
+  var ignore = ['node_modules','/app/bower_components','dist','temp'];
   var fs = require('fs');
-  return fs.readdirSync(process.cwd())
+  return fs.readdirSync(process.cwd() + '/' + folder)
   .map(function(file){
+    
     if (ignore.indexOf(file) !== -1 ||
       file.indexOf('.') === 0 ||
-      !fs.lstatSync(file).isDirectory()) {
+      !fs.lstatSync(folder + '/' + file).isDirectory()) {
       return null;
   } else {
     return fileTypePatterns.map(function(pattern) {
@@ -45,17 +46,21 @@ module.exports = function (grunt) {
     connect: {
       main : {
         options : {
-          port: 9001
-          
+          port: 9001          
         }            
       },
       livereload : {
         main : {
           options : {
+            open: true,
+            base: [
+              '.tmp',
+              'app/'
+            ],
             middleware: function(connect) {
               return [
-                connect.static(require('path').resolve('.')),
-                corsSnippet                
+                corsSnippet,
+                connect.static(require('path').resolve('app/'))            
               ];
             }
           }
@@ -69,14 +74,14 @@ module.exports = function (grunt) {
           spawn: true,
           livereload: true 
         },
-        files: [createFolderGlobs(['*.js','*.less','*.html']),'!_SpecRunner.html','!.grunt'],
+        files: [createFolderGlobs('app', ['*.js','*.less','*.html']),'!_SpecRunner.html','!.grunt'],
         tasks: [] //all the tasks are run dynamically during the watch event handler
       }
     },
     open: {
       main: {
         // Gets the port from the connect configuration
-        path: 'http://localhost:<%= connect.main.options.port%>'
+        path: 'http://localhost:<%= connect.main.options.port%>/app'
       }
     },
     jshint: {
@@ -84,7 +89,7 @@ module.exports = function (grunt) {
         options: {
           jshintrc: '.jshintrc'
         },
-        src: createFolderGlobs('*.js')
+        src: [createFolderGlobs('app', '*.js'),'!**/test/**']
       }
     },
     clean: {
@@ -100,7 +105,7 @@ module.exports = function (grunt) {
         options: {
         },
         files: {
-          'temp/style/app.css': 'style/app.less'
+          'temp/style/app.css': 'app/style/app.less'
         }
       }
     },
@@ -110,17 +115,17 @@ module.exports = function (grunt) {
           module: pkg.name,
           htmlmin:'<%= htmlmin.main.options %>'
         },
-        src: [createFolderGlobs('*.html'),'!index.html','!_SpecRunner.html'],
+        src: [createFolderGlobs('app', '*.html'),'!index.html','!_SpecRunner.html'],
         dest: 'temp/templates.js'
       }
     },
     copy: {
       main: {
         files: [
-        {src: ['img/**'], dest: 'dist/'},
-        {src: ['bower_components/font-awesome/fonts/**'], dest: 'dist/',filter:'isFile',expand:true},
-        {src: ['bower_components/bootstrap/fonts/**'], dest: 'dist/',filter:'isFile',expand:true},
-        {src: ['data/**'], dest: 'dist/', filter:'isFile',expand:true}
+        {src: ['app/img/**'], dest: 'dist/'},
+        {src: ['app/bower_components/font-awesome/fonts/**'], dest: 'dist/',filter:'isFile',expand:true},
+        {src: ['app/bower_components/bootstrap/fonts/**'], dest: 'dist/',filter:'isFile',expand:true},
+        {src: ['app/data/**'], dest: 'dist/', filter:'isFile',expand:true}
           //{src: ['bower_components/angular-ui-utils/ui-utils-ieshiv.min.js'], dest: 'dist/'},
           //{src: ['bower_components/select2/*.png','bower_components/select2/*.gif'], dest:'dist/css/',flatten:true,expand:true},
           //{src: ['bower_components/angular-mocks/angular-mocks.js'], dest: 'dist/'}
@@ -145,7 +150,7 @@ module.exports = function (grunt) {
             {selector:'head',html:'<link rel="stylesheet" href="style/app.full.min.css">'}
             ]
           },
-          src:'index.html',
+          src:'app/index.html',
           dest: 'dist/index.html'
         }
       },
@@ -203,7 +208,7 @@ module.exports = function (grunt) {
           src: ['<%= dom_munger.data.appjs %>','bower_components/angular-mocks/angular-mocks.js'],
           options: {
             keepRunner: false,
-            specs: createFolderGlobs('*-spec.js')
+            specs: createFolderGlobs('test', '*-spec.js')
           }
         }
       }

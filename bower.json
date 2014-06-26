@@ -1,11 +1,11 @@
 {
-  "name": "portail-qualif",
+  "name": "portal",
   "version": "1.0.0.B2",
   "main": "index.html",
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components"
+    "app/bower_components"
   ],
   "dependencies": {
     "jquery": "~2.0",
