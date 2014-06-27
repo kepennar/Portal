@@ -1,17 +1,17 @@
 
-angular.module('portail-qualif', [
+angular.module('portal', [
     'ui.bootstrap',
     'ui.utils',
     'ui.router',
     'ngRoute',
     'ngAnimate',
     'ngDragDrop',
-    'portail-qualif.controllers',
-    'portail-qualif.services',
-    'portail-qualif.directives'
+    'portal.controllers',
+    'portal.services',
+    'portal.directives'
 ]);
 
-angular.module('portail-qualif')
+angular.module('portal')
   .provider('JenkinsInitializer', function () {
     this.$get = function (Jenkins) {
         return Jenkins.init();
@@ -23,7 +23,7 @@ angular.module('portail-qualif')
     };
   });
 
-angular.module('portail-qualif').config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+angular.module('portal').config(function($stateProvider, $urlRouterProvider, $httpProvider) {
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
     
@@ -47,7 +47,7 @@ angular.module('portail-qualif').config(function($stateProvider, $urlRouterProvi
 
 });
 
-angular.module('portail-qualif').run(function($rootScope) {
+angular.module('portal').run(function($rootScope) {
     $rootScope.mode = 'dev';
     
     $rootScope.safeApply = function(fn) {

@@ -1,5 +1,5 @@
 
-angular.module('portail-qualif.services', [])
+angular.module('portal.services', [])
 .factory('Conf', ['$rootScope', '$http', '$q', function($rootScope, $http, $q) {
 	"use strict";
 	var confs = {};

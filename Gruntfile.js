@@ -14,7 +14,7 @@ var createFolderGlobs = function(folder, fileTypePatterns) {
   var fs = require('fs');
   return fs.readdirSync(process.cwd() + '/' + folder)
   .map(function(file){
-    
+
     if (ignore.indexOf(file) !== -1 ||
       file.indexOf('.') === 0 ||
       !fs.lstatSync(folder + '/' + file).isDirectory()) {
@@ -54,13 +54,13 @@ module.exports = function (grunt) {
           options : {
             open: true,
             base: [
-              '.tmp',
-              'app/'
+            '.tmp',
+            'app/'
             ],
             middleware: function(connect) {
               return [
-                corsSnippet,
-                connect.static(require('path').resolve('app/'))            
+              corsSnippet,
+              connect.static(require('path').resolve('app/'))            
               ];
             }
           }
@@ -115,104 +115,101 @@ module.exports = function (grunt) {
           module: pkg.name,
           htmlmin:'<%= htmlmin.main.options %>'
         },
-        src: [createFolderGlobs('app', '*.html'),'!index.html','!_SpecRunner.html'],
+        cwd: 'app',
+        src: ['partials/**.html'],
         dest: 'temp/templates.js'
       }
     },
     copy: {
       main: {
         files: [
-        {src: ['app/img/**'], dest: 'dist/'},
-        {src: ['app/bower_components/font-awesome/fonts/**'], dest: 'dist/',filter:'isFile',expand:true},
-        {src: ['app/bower_components/bootstrap/fonts/**'], dest: 'dist/',filter:'isFile',expand:true},
-        {src: ['app/data/**'], dest: 'dist/', filter:'isFile',expand:true}
-          //{src: ['bower_components/angular-ui-utils/ui-utils-ieshiv.min.js'], dest: 'dist/'},
-          //{src: ['bower_components/select2/*.png','bower_components/select2/*.gif'], dest:'dist/css/',flatten:true,expand:true},
-          //{src: ['bower_components/angular-mocks/angular-mocks.js'], dest: 'dist/'}
+        {expand: true, cwd: 'app/img/', src: ['**'], dest: 'dist/img/'},
+        {expand: true, cwd: 'app/bower_components/font-awesome/fonts/', src: ['**'], dest: 'dist/bower_components/font-awesome/fonts/'},
+        {expand: true, cwd: 'app/data/', src: ['**'], dest: 'dist/data/'}
+        ]
+      }
+    },
+    dom_munger:{
+      read: {
+        options: {
+          read:[
+          {selector:'script[data-build!="exclude"]', attribute:'src', isPath:true, writeto:'appjs'},
+          {selector:'link[rel="stylesheet"]', attribute:'href', isPath:true, writeto:'appcss'}
           ]
-        }
-      },
-      dom_munger:{
-        read: {
-          options: {
-            read:[
-            {selector:'script[data-build!="exclude"]',attribute:'src',writeto:'appjs'},
-            {selector:'link[rel="stylesheet"]',attribute:'href',writeto:'appcss'}
-            ]
-          },
-          src: 'index.html'
         },
-        update: {
-          options: {
-            remove: ['script[data-remove!="exclude"]','link'],
-            append: [
-            {selector:'body',html:'<script src="js/app.full.min.js"></script>'},
-            {selector:'head',html:'<link rel="stylesheet" href="style/app.full.min.css">'}
-            ]
-          },
-          src:'app/index.html',
-          dest: 'dist/index.html'
-        }
+        src: 'app/index.html'
       },
-      cssmin: {
-        main: {
-          src:['temp/style/app.css','<%= dom_munger.data.appcss %>'],
-          dest:'dist/style/app.full.min.css'
-        }
-      },
-      concat: {
-        main: {
-          src: ['<%= dom_munger.data.appjs %>','<%= ngtemplates.main.dest %>'],
-          dest: 'temp/js/app.full.js'
-        }
-      },
-      ngmin: {
-        main: {
-          src:'temp/js/app.full.js',
-          dest: 'temp/js/app.full.js'
-        }
-      },
-      uglify: {
-        main: {
-          src: 'temp/js/app.full.js',
-          dest:'dist/js/app.full.min.js'
-        }
-      },
-      htmlmin: {
-        main: {
-          options: {
-            collapseBooleanAttributes: true,
-            collapseWhitespace: true,
-            removeAttributeQuotes: true,
-            removeComments: true,
-            removeEmptyAttributes: true,
-            removeScriptTypeAttributes: true,
-            removeStyleLinkTypeAttributes: true
-          },
-          files: {
-            'dist/index.html': 'dist/index.html'
-          }
-        }
-      },
-      imagemin: {
-        main:{
-          files: [{
-            expand: true, cwd:'dist/',
-            src:['**/{*.png,*.jpg}'],
-            dest: 'dist/'
-          }]
-        }
-      },
-      jasmine: {
-        unit: {
-          src: ['<%= dom_munger.data.appjs %>','bower_components/angular-mocks/angular-mocks.js'],
-          options: {
-            keepRunner: false,
-            specs: createFolderGlobs('test', '*-spec.js')
-          }
+      update: {
+        options: {
+          remove: ['script[data-remove!="exclude"]','link'],
+          append: [
+          {selector:'body',html:'<script src="js/app.full.min.js"></script>'},
+          {selector:'head',html:'<link rel="stylesheet" href="style/app.full.min.css">'}
+          ]
+        },
+        src:'app/index.html',
+        dest: 'dist/index.html'
+      }
+    },
+    cssmin: {
+      main: {
+        src:['temp/style/app.css','<%= dom_munger.data.appcss %>'],
+        dest:'dist/style/app.full.min.css'
+      }
+    },
+    concat: {
+      main: {
+        src: ['<%= dom_munger.data.appjs %>','<%= ngtemplates.main.dest %>'],
+        dest: 'temp/js/app.full.js'
+      }
+    },
+    ngmin: {
+      main: {
+        src:'temp/js/app.full.js',
+        dest: 'temp/js/app.full.js'
+      }
+    },
+    uglify: {
+      main: {
+        src: 'temp/js/app.full.js',
+        dest:'dist/js/app.full.min.js'
+      }
+    },
+    htmlmin: {
+      main: {
+        options: {
+          collapseBooleanAttributes: true,
+          collapseWhitespace: true,
+          removeAttributeQuotes: true,
+          removeComments: true,
+          removeEmptyAttributes: true,
+          removeScriptTypeAttributes: true,
+          removeStyleLinkTypeAttributes: true
+        },
+        files: {
+          'dist/index.html': 'dist/index.html'
         }
       }
-    });
+    },
+    imagemin: {
+      main:{
+        files: [{
+          expand: true, cwd:'dist/',
+          src:['**/{*.png,*.jpg}'],
+          dest: 'dist/'
+        }]
+      }
+    },
+    jasmine: {
+      unit: {
+        src: ['<%= dom_munger.data.appjs %>','bower_components/angular-mocks/angular-mocks.js'],
+        options: {
+          keepRunner: false,
+          specs: createFolderGlobs('test', '*-spec.js')
+        }
+      }
+    }
+  });
 
 grunt.registerTask('build',['jshint','clean:before','less','dom_munger','ngtemplates','cssmin','concat','ngmin','uglify','copy','htmlmin','imagemin','clean:after']);
 grunt.registerTask('serve', ['dom_munger:read','jshint','connect', 'open', 'watch']);

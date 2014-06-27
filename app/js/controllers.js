@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-angular.module('portail-qualif.controllers', [])
+angular.module('portal.controllers', [])
 	.controller('HeaderCtrl', ['$scope', 'Links', function($scope, Links) {
 		"use strict";
 		Links.headers.then(function(headers) {
