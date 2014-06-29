@@ -25,19 +25,9 @@
     "load-grunt-tasks": "~0.2",
     "grunt-less-imports": "^0.9.1",
     "karma": "~0.10",
-    "protractor": "~0.20",
+    "protractor": "~0.20.1",
     "karma-junit-reporter": "^0.2.2",
-    "grunt-protractor-runner": "~1.0.0"
-  },
-  "scripts": {
-    "postinstall": "bower install",
-    "prestart": "npm install",
-    "pretest": "npm install",
-    "test": "karma start test/karma.conf.js",
-    "test-single-run": "karma start test/karma.conf.js  --single-run",
-    "preupdate-webdriver": "npm install",
-    "update-webdriver": "webdriver-manager update",
-    "preprotractor": "npm run update-webdriver",
-    "protractor": "protractor test/protractor-conf.js"
+    "grunt-protractor-runner": "~1.0.0",
+    "http-server": "^0.6.1"
   }
 }

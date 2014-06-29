@@ -7,15 +7,18 @@ describe('Portal homepage', function() {
 
 	describe('home', function() {
 
-		beforeEach(function() {
-			browser.get('index.html#/home');
-		});
-
+		//beforeEach(function() {
+		//	browser.get('index.html#/home');
+		//});
 
 		it('should display link in top menu', function() {
-			expect(element.all(by.css('.navbar-top-links')).first().getText()).
-			toMatch(/partial for view 1/);
+			var topMenus = element.all(by.css('.navbar-top-links li'));
+			expect(topMenus.count()).toBeGreaterThan(0);
 		});
 
+		it('should display link in left Menus', function() {
+			var leftMenus = element.all(by.css('#side-menu li'));
+			expect(leftMenus.count()).toBeGreaterThan(2);
+		});
 	});
 });

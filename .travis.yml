@@ -7,6 +7,9 @@ before_install:
 install: npm install
 before_script:
 - bower install
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- grunt test
 - grunt build
 after_success:
 - cd $TRAVIS_BUILD_DIR/dist/
