@@ -116,7 +116,7 @@ module.exports = function (grunt) {
 					htmlmin:'<%= htmlmin.main.options %>'
 				},
 				cwd: 'app',
-				src: ['partials/**.html'],
+				src: ['partials/**/*.html'],
 				dest: 'temp/templates.js'
 			}
 		},
