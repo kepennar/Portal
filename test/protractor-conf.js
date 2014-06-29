@@ -3,7 +3,7 @@ exports.config = {
 	allScriptsTimeout: 11000,
 	baseUrl: 'http://localhost:9001/app/',
 	capabilities: {
-		'browserName': 'chrome'
+		'browserName': 'firefox'
 	},
 
 	specs: [
