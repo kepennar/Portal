@@ -10,7 +10,7 @@ before_script:
 - sh -e /etc/init.d/xvfb start
 - npm start > /dev/null &
 - npm run update-webdriver
-- sleep 1 # give server time to start
+- sleep 1
 - bower install
 - grunt test
 - grunt build
@@ -18,9 +18,13 @@ after_success:
 - cd $TRAVIS_BUILD_DIR/dist/
 - find . -type f -exec curl -u $DEPLOY_USERNAME:$DEPLOY_PASSWORD --ftp-create-dirs
   -T {} $DEPLOY_HOST/$DEPLOY_REMOTEDIR/{} \;
+addons:
+  sauce_connect: true
 env:
   global:
-    secure: M4MGdUCkqriA+UjvtV/YHHACY6Qqv8d1gfCulsqati7ZCackNQuLf3v/X8VfMSG4TOFS6aZcAcvAO0Mkiv4FahgiGzO+bPJRKfevX3SGP+GUGNcQD9LuD6CufeKT6GNf5CU7rjOT0tC+pJ/UH8apWyfD18niXTj0/8mB7givyVs=
+  - secure: M4MGdUCkqriA+UjvtV/YHHACY6Qqv8d1gfCulsqati7ZCackNQuLf3v/X8VfMSG4TOFS6aZcAcvAO0Mkiv4FahgiGzO+bPJRKfevX3SGP+GUGNcQD9LuD6CufeKT6GNf5CU7rjOT0tC+pJ/UH8apWyfD18niXTj0/8mB7givyVs=
+  - secure: JZLMAP1fziUHy8Kjo2P4T3qEDG0u/laxC/fLahv+E+TbLvtIfkaDHM/uvPVcnjeg4jcbe1FWd9Khv2KkTL7OrETfttvfYg0oKM4kAQ1G2dpajUwFP8OncZdibh6WgUyOcKvDkw9SZPgbZZddaH6Ld0KejI8ZVcuKgchM44prKyI=
+  - secure: VB5gAgfMYYykn5QMK1fpjjM0Y2dlVPvFKJj+7xRusAyJ8y7WrahednKFNiIIy1h05eIN6R/WEDEx3HZTpVmefIKdz3QMDk6WfEDrK3/1tMSyHstFD/hac5ot73kzSouqb3CBRappe9D51efZ2+fhnbq7hxCu61/Nx4npvMN+S10=
 notifications:
   slack:
     secure: F1JID7ojAJXQ2X2I9KKtD5EEM5vKkIo1FNZuaZd315I6+M3GDComnfobRIHldOIMg2C1o41eZNJK/K8avJN0tBNJy01D/gSNZBo2nP8dfpVEMmZn4z3w0kLzQbJErXMYSV/jdMN0CyjzGf62KMVrfv8qItRQ6+zuFhye/2elRis=
