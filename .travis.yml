@@ -12,8 +12,7 @@ before_script:
 - npm run update-webdriver
 - sleep 1
 - bower install
-- grunt test
-- grunt build
+- grunt travis
 after_success:
 - cd $TRAVIS_BUILD_DIR/dist/
 - find . -type f -exec curl -u $DEPLOY_USERNAME:$DEPLOY_PASSWORD --ftp-create-dirs
