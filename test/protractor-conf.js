@@ -14,16 +14,15 @@ exports.config = {
 	capabilities: capabilities,
 	
 	allScriptsTimeout: 11000,
-	baseUrl: 'http://localhost:9001/app/'
-},
+	baseUrl: 'http://localhost:9001/app/',
 
-specs: [
-'e2e/*.js'
-],
+	specs: [
+		'e2e/*.js'
+	],
 
-framework: 'jasmine',
-jasmineNodeOpts: {
-	showColors: true,
-	defaultTimeoutInterval: 30000
-}
+	framework: 'jasmine',
+	jasmineNodeOpts: {
+		showColors: true,
+		defaultTimeoutInterval: 30000
+	}
 };
