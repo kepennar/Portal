@@ -1,7 +1,7 @@
 // Run e2e tests on sauce lab when project is build on Travis
 
 var capabilities = {};
-capabilities.browserName: 'chrome';
+capabilities.browserName= 'chrome';
 if (process.env.TRAVIS) {	
 	sauceUser = process.env.SAUCE_USERNAME;
 	sauceKey = process.env.SAUCE_ACCESS_KEY;
