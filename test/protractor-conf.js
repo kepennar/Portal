@@ -9,7 +9,7 @@ if (process.env.TRAVIS) {
 	capabilities['tunnel-identifier'] = process.env.TRAVIS_JOB_NUMBER;
 	capabilities['build'] = process.env.TRAVIS_BUILD_NUMBER;
 }
-console.debug('Capabilities: ', capabilities);
+console.log('Capabilities: ', capabilities);
 exports.config = {
 	
 	capabilities: capabilities,
