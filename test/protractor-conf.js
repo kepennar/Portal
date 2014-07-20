@@ -11,7 +11,8 @@ if (process.env.TRAVIS) {
 }
 console.log('Capabilities: ', capabilities);
 exports.config = {
-	
+	auceUser: process.env.SAUCE_USERNAME,
+	sauceKey: process.env.SAUCE_ACCESS_KEY,
 	capabilities: capabilities,
 	
 	allScriptsTimeout: 11000,
