@@ -4,14 +4,22 @@
 		"jenkinsIntervalToShow" : 3.5,
 		"jenkinsUpdateInterval": 10000,
 		"sonarUrl" : "http://localhost/sonar",
+		"feedsProxyUrl" : "http://kepennar-proxy-feeds.herokuapp.com/api",
+		"feedsNumber": 3,
 		"defaultFeeds" : [
-			"http://rss.cnn.com/rss/cnn_topstories.rss"
+			"http://rss.cnn.com/rss/cnn_topstories.rss",
+			"http://news.ycombinator.com/rss"
 		]
 	},
 	"integ": {
 		"jenkinsUrl" : "http://integ-server.org:8080",
 		"jenkinsIntervalToShow" : 24,
 		"jenkinsUpdateInterval": 30000,
-		"sonarUrl" : "http://integ-server.org:9000"
+		"sonarUrl" : "http://integ-server.org:9000",
+		"feedsProxyUrl" : "http://kepennar-proxy-feeds.herokuapp.com/api",
+		"feedsNumber": 5,
+		"defaultFeeds" : [
+			"http://rss.cnn.com/rss/cnn_topstories.rss"
+		]
 	}
 }

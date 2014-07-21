@@ -5,14 +5,14 @@
 angular.module('portal.controllers', [])
 	.controller('HeaderCtrl', ['$scope', 'Links', function($scope, Links) {
 		"use strict";
-		Links.headers.then(function(headers) {
+		Links.headers().then(function(headers) {
 			$scope.headerApps = headers;
 		});
 
 	}])
 	.controller('MenuLeftCtrl', ['$scope', 'Links', function($scope, Links) {
 		"use strict";
-		Links.menus.then(function(menus) {
+		Links.menus().then(function(menus) {
 			$scope.menus = menus;
 		});		
 
@@ -66,7 +66,7 @@ angular.module('portal.controllers', [])
 		"use strict";
 		$scope.customLink = {};
 
-		Links.menuTypes.then(function(menuTypes) {
+		Links.menuTypes().then(function(menuTypes) {
 			$scope.types = menuTypes;
 		});
 		$scope.ok = function () {
@@ -98,7 +98,7 @@ angular.module('portal.controllers', [])
 		var stop;
 
 		var getJobsResults = function() {
-			Jenkins.jobs().promise.then(function(jobs) {
+			Jenkins.jobs().then(function(jobs) {
 				$scope.jobs= jobs;				
 			});
 		};
@@ -156,6 +156,15 @@ angular.module('portal.controllers', [])
 	}])
 	.controller('FeedsCtrl', ['$scope', '$modal', 'Feeds', function($scope, $modal, Feeds) {
 		"use strict";
+		$scope.feeds = [];
+		var feedsUrls = angular.fromJson(localStorage.feedsUrls);
+		if(!feedsUrls) {
+			feedsUrls = Feeds.defaultFeeds();
+			localStorage.feedsUrls = angular.toJson(feedsUrls);
+		}
+		Feeds.feeds(feedsUrls).then(function(feeds) {
+			$scope.feeds = feeds;
+		});
 		
 		
 	}]);

@@ -6,6 +6,7 @@ angular.module('portal', [
     'ngRoute',
     'ngAnimate',
     'ngDragDrop',
+    'ngSanitize',
     'portal.controllers',
     'portal.services',
     'portal.directives'
@@ -20,6 +21,11 @@ angular.module('portal')
   .provider('SonarInitializer', function () {
     this.$get = function (Sonar) {
         return Sonar.init();
+    };
+  })
+  .provider('FeedsInitializer', function () {
+    this.$get = function (Feeds) {
+        return Feeds.init();
     };
   });
 
@@ -39,7 +45,7 @@ angular.module('portal').config(function($stateProvider, $urlRouterProvider, $ht
             'favoritesView': { templateUrl: 'partials/favorites.html', controller: 'FavoritesCtrl'},
             'jenkinsView': { templateUrl: 'partials/jenkins.html', controller: 'JenkinsCtrl', resolve: {init : 'JenkinsInitializer'}},
             'sonarView': { templateUrl: 'partials/sonar.html', controller: 'SonarCtrl', resolve: {init : 'SonarInitializer'}},
-            'feedsView': { templateUrl: 'partials/feeds.html', controller: 'FeedsCtrl', resolve: {init : 'SonarInitializer'}}
+            'feedsView': { templateUrl: 'partials/feeds.html', controller: 'FeedsCtrl', resolve: {init : 'FeedsInitializer'}}
           }
         });
 

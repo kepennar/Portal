@@ -86,9 +86,9 @@ angular.module('portal.services', [])
 	};
 
 	return {
-		menus : getMenus(),
-		headers : getHeaders(),
-		menuTypes : getMenuTypes(),
+		menus : getMenus,
+		headers : getHeaders,
+		menuTypes : getMenuTypes,
 		menuById: getMenuInfoById
 	};
 }])
@@ -113,7 +113,6 @@ angular.module('portal.services', [])
 		var now = Date.now();
 		var interval = 3600000 * hoursToShow;
 
-		var defer = $q.defer();
 		$http.get(jenkinsUrl + "/api/json?tree=jobs[name,description,url,lastCompletedBuild[timestamp]]")
 		.then(function(result) {
 			_(result.data.jobs).each(function(job) {
@@ -129,7 +128,7 @@ angular.module('portal.services', [])
 			});
 			deferredJobs.resolve(filteredJobs);
 		});
-		return deferredJobs;
+		return deferredJobs.promise;
 	};
 
 	return {
@@ -149,11 +148,11 @@ angular.module('portal.services', [])
 	};
 
 	var listApps = function() {
-		var defferedApps = $q.defer();
+		var deferedApps = $q.defer();
 		$http.get(sonarUrl + "/api/resources").success(function(data) {
-			defferedApps.resolve(data);
+			deferedApps.resolve(data);
 		});
-		return defferedApps.promise;
+		return deferedApps.promise;
 	};
 	return {		
 		init: loadConf,
@@ -162,19 +161,45 @@ angular.module('portal.services', [])
 }])
 .factory('Feeds', ['$http', '$q', 'Conf', function($http, $q, Conf) {
 	"use strict";
-	var defaultFeeds;
+	var defaultFeeds, feedsProxy, limit;
 
 	var loadConf = function() {		
 		return Conf.conf().then(function(conf) {
-			defaultFeeds = conf.defaultFeeds;
+			feedsProxy 		= conf.feedsProxyUrl;
+			defaultFeeds 	= conf.defaultFeeds;
+			limit 			= conf.feedsNumber;
 		});
 	};
-
-	var feeds = function() {
-		
+	var getDefaultFeeds = function() {
+		return defaultFeeds;
 	};
+
+	var feeds = function(feedsUrls) {
+		var deferedFeeds = $q.defer();
+		var feedsPromises = _(feedsUrls).map(function(url) {
+			return getFeeds(url);
+		});
+		$q.all(feedsPromises)
+		.then(function(results) {
+			deferedFeeds.resolve(_.chain(results).union().flatten(true).value());
+		});
+		return deferedFeeds.promise;
+	};
+	
+	var getFeeds = function (url) {
+		return $http.get(feedsProxy, {
+			params: {
+				q: url,
+				limit: limit
+			}
+		}).then(function(response) {
+			return response.data;
+		});	
+	};
+
 	return {		
 		init: loadConf,
+		defaultFeeds : getDefaultFeeds,
 		feeds: feeds
 	};
 }]);

@@ -20,6 +20,15 @@
 	<!-- /.panel-heading -->
 	<div class="panel-body" >
 		<div id="feeds-panel" class="feeds-panel" >
+			<div ng-repeat="feed in feeds" class="list-group"> 
+				<a href="{{feed.guid}}" target="_blank" class="list-group-item repeat-item" >	
+					<h4 ng-bind="feed.title"></h4>
+					<p ng-bind-html="feed.summary | limitTo: 100">
+					</p><span>...</span>
+					<p ng-bind="feed.date | date:'MM/dd/yyyy @ h:mma'">
+					</p>
+				</a>
+			</div>
 			
 		</div>
 	</div>
