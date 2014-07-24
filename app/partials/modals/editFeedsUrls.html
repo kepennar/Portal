@@ -1,0 +1,20 @@
+<div class="modal-header">
+	<h3 class="modal-title">Edit <strong>URLs</strong></h3>
+</div>
+<div class="modal-body">
+	<ul class="list-group">
+		<li ng-repeat="url in urls" class="list-group-item" ng-class-odd="'list-group-item-info'">
+			<span ng-bind="url" ></span><i ng-click="delete(url)" class="fa fa-times-circle-o pull-right delete-btn"></i>			
+		</li>
+
+		<div class="row">
+			<div class="col-xs-4">
+				<input type="text" class="form-control" placeholder="Url"><button type="button" class="btn btn-info">Add</button>
+			</div>
+		</div>
+	</ul>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="ok()" >OK</button>
+	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>	
+</div>

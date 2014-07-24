@@ -8,9 +8,9 @@
 					Actions
 					<span class="caret"></span>
 				</button>
-				<ul class="dropdown-menu pull-right" role="menu">
+				<ul class="dropdown-menu pull-right" role="menu" ng-if="!editMode">
 					<li>
-						<a href="#" ng-click="editMode = !editMode">Editer</a>
+						<a href="#" ng-click="edit()">Editer</a>
 					<li>
 				</ul>
 			</div>

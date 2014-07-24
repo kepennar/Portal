@@ -42,7 +42,7 @@ angular.module('portal.controllers', [])
 		};
 		$scope.removeFavorite = function(favorite, $event) {
 	
-			$scope.favorites = _.without($scope.favorites, favorite);
+			$scope.favorites = _($scope.favorites).without(favorite);
 			localStorage.favorites = angular.toJson($scope.favorites);
 			if ($event.stopPropagation) {
 				$event.stopPropagation();
@@ -156,15 +156,53 @@ angular.module('portal.controllers', [])
 	}])
 	.controller('FeedsCtrl', ['$scope', '$modal', 'Feeds', function($scope, $modal, Feeds) {
 		"use strict";
-		$scope.feeds = [];
-		var feedsUrls = angular.fromJson(localStorage.feedsUrls);
-		if(!feedsUrls) {
-			feedsUrls = Feeds.defaultFeeds();
-			localStorage.feedsUrls = angular.toJson(feedsUrls);
+		var setFeedsUrls = function(urls) {
+			$scope.feedsUrls = urls;
+			localStorage.feedsUrls = angular.toJson($scope.feedsUrls);
+		};
+		
+		$scope.feeds = []
+		, $scope.editMode= false
+		, $scope.feedsUrls = angular.fromJson(localStorage.feedsUrls);
+		if(!$scope.feedsUrls) {
+			setFeedsUrls(Feeds.defaultFeeds());
 		}
-		Feeds.feeds(feedsUrls).then(function(feeds) {
+		Feeds.feeds($scope.feedsUrls).then(function(feeds) {
 			$scope.feeds = feeds;
 		});
 		
+
+		$scope.edit = function() {
+			$scope.editMode = ! $scope.editMode;
+			if ($scope.editMode) {
+				var modalInstance = $modal.open({
+					controller : 'FeedsModalCtrl',
+					resolve: {
+						urls : function() {
+							return $scope.feedsUrls;
+						}
+					},
+					templateUrl: 'partials/modals/editFeedsUrls.html'
+				})
+				.result.then(function(urls) {
+					setFeedsUrls(urls);
+				});
+			}
+		};
 		
+	}])
+	.controller('FeedsModalCtrl', ['$scope', '$modalInstance', 'urls', function($scope, $modalInstance, urls) {
+		"use strict";
+		$scope.urls = urls;
+
+		$scope.delete = function(url) {
+			$scope.urls = _($scope.urls).without(url);
+		};
+
+		$scope.ok = function() {
+			$modalInstance.close($scope.urls);
+		};
+		$scope.cancel = function () {
+			$modalInstance.dismiss('cancel');
+		};
 	}]);
