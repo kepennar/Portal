@@ -161,17 +161,21 @@ angular.module('portal.services', [])
 }])
 .factory('Feeds', ['$http', '$q', 'Conf', function($http, $q, Conf) {
 	"use strict";
-	var defaultFeeds, feedsProxy, limit;
+	var defaultFeeds, feedsProxy, limit, updateInterval;
 
 	var loadConf = function() {		
 		return Conf.conf().then(function(conf) {
 			feedsProxy 		= conf.feedsProxyUrl;
 			defaultFeeds 	= conf.defaultFeeds;
-			limit 			= conf.feedsNumber;
+			limit 			= conf.feedsLimit;
+			updateInterval	= conf.updateInterval;
 		});
 	};
 	var getDefaultFeeds = function() {
 		return defaultFeeds;
+	};
+	var getInterval = function() {
+		return updateInterval;
 	};
 
 	var feeds = function(feedsUrls) {
@@ -200,6 +204,7 @@ angular.module('portal.services', [])
 	return {		
 		init: loadConf,
 		defaultFeeds : getDefaultFeeds,
+		interval: getInterval,
 		feeds: feeds
 	};
 }]);

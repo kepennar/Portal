@@ -23,7 +23,7 @@
     "angular-bootstrap": "~0.9",
     "moment": "~2.5",
     "less.js": "~1.6",
-    "font-awesome": "~4.0",
+    "font-awesome": "~4.1",
     "angular-dragdrop" : "~1.0"
   }
 }

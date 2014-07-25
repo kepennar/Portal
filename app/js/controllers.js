@@ -154,7 +154,7 @@ angular.module('portal.controllers', [])
 		"use strict";
 		$scope.app = app;
 	}])
-	.controller('FeedsCtrl', ['$scope', '$modal', 'Feeds', function($scope, $modal, Feeds) {
+	.controller('FeedsCtrl', ['$scope', '$modal', '$interval', 'Feeds', function($scope, $modal, $interval, Feeds) {
 		"use strict";
 		var setFeedsUrls = function(urls) {
 			$scope.feedsUrls = urls;
@@ -163,7 +163,11 @@ angular.module('portal.controllers', [])
 		
 		$scope.feeds = []
 		, $scope.editMode= false
-		, $scope.feedsUrls = angular.fromJson(localStorage.feedsUrls);
+		, $scope.feedsUrls = angular.fromJson(localStorage.feedsUrls)
+		, $scope.isCollapsed = false;
+		var stop;
+
+
 		if(!$scope.feedsUrls) {
 			setFeedsUrls(Feeds.defaultFeeds());
 		}
@@ -172,6 +176,35 @@ angular.module('portal.controllers', [])
 		});
 		
 
+		var getFeedsResults = function() {
+			Feeds.feeds($scope.feedsUrls).then(function(feeds) {
+				$scope.feeds = feeds;
+			});
+		};
+		var startRequests = function() {
+			if ( angular.isDefined(stop) ) {
+				return;
+			}
+			getFeedsResults();
+			stop = $interval(getFeedsResults, Feeds.interval());
+		};
+		var stopRequests = function() {
+			if (angular.isDefined(stop)) {
+				$interval.cancel(stop);
+				stop = undefined;
+			}
+		};
+		
+		$scope.$watch('isCollapsed', function (newVal) {
+			if (newVal) {
+				stopRequests();
+			} else {
+				startRequests();
+			}
+		});
+
+
+
 		$scope.edit = function() {
 			$scope.editMode = ! $scope.editMode;
 			if ($scope.editMode) {
@@ -179,13 +212,19 @@ angular.module('portal.controllers', [])
 					controller : 'FeedsModalCtrl',
 					resolve: {
 						urls : function() {
-							return $scope.feedsUrls;
+							return angular.copy($scope.feedsUrls);
 						}
 					},
 					templateUrl: 'partials/modals/editFeedsUrls.html'
 				})
-				.result.then(function(urls) {
+				.result;
+
+				modalInstance.then(function(urls) {
 					setFeedsUrls(urls);
+					$scope.editMode = ! $scope.editMode;
+					getFeedsResults();
+				}, function() {
+					$scope.editMode = ! $scope.editMode;
 				});
 			}
 		};
@@ -193,14 +232,19 @@ angular.module('portal.controllers', [])
 	}])
 	.controller('FeedsModalCtrl', ['$scope', '$modalInstance', 'urls', function($scope, $modalInstance, urls) {
 		"use strict";
-		$scope.urls = urls;
+		$scope.urls = urls
+		, $scope.newUrl = {url: 'http://test.fr'};
 
 		$scope.delete = function(url) {
 			$scope.urls = _($scope.urls).without(url);
 		};
+		$scope.add = function() {
+			$scope.urls.push($scope.newUrl.url);
+		};
 
 		$scope.ok = function() {
 			$modalInstance.close($scope.urls);
+			$scope.urls = [];
 		};
 		$scope.cancel = function () {
 			$modalInstance.dismiss('cancel');

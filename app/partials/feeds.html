@@ -1,7 +1,7 @@
 
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<i class="fa fa-star fa-fw"></i> Feeds
+	<div class="panel-heading collapsable" ng-click="isCollapsed = !isCollapsed">
+		<i class="fa fa-university"></i> Feeds
 		<div class="pull-right">
 			<div class="btn-group">
 				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -18,7 +18,7 @@
 	</div>
 	<!-- /.col-lg-12 -->
 	<!-- /.panel-heading -->
-	<div class="panel-body" >
+	<div class="panel-body" collapse="isCollapsed">
 		<div id="feeds-panel" class="feeds-panel" >
 			<div ng-repeat="feed in feeds" class="list-group"> 
 				<a href="{{feed.guid}}" target="_blank" class="list-group-item repeat-item" >	
