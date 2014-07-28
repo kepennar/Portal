@@ -1,0 +1,36 @@
+
+<div class="panel panel-default">
+	<div class="panel-heading collapsable" ng-click="isCollapsed = !isCollapsed">
+		<i class="fa fa-university"></i> Feeds
+		<div class="pull-right">
+			<div class="btn-group">
+				<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+					Actions
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu pull-right" role="menu" ng-if="!editMode">
+					<li>
+						<a href="#" ng-click="edit()">Editer</a>
+					<li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- /.col-lg-12 -->
+	<!-- /.panel-heading -->
+	<div class="panel-body" collapse="isCollapsed">
+		<div id="feeds-panel" class="feeds-panel" >
+			<div ng-repeat="feed in feeds" class="list-group"> 
+				<a href="{{feed.guid}}" target="_blank" class="list-group-item repeat-item" >	
+					<h4 ng-bind="feed.title"></h4>
+					<p ng-bind-html="feed.summary | limitTo: 100">
+					</p><span>...</span>
+					<p ng-bind="feed.date | date:'MM/dd/yyyy @ h:mma'">
+					</p>
+				</a>
+			</div>
+			
+		</div>
+	</div>
+	<!-- /.panel-body -->
+</div>

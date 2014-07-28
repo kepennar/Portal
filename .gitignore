@@ -4,3 +4,5 @@ data
 dist
 travis.log
 npm-debug.log
+_SpecRunner.html
+.grunt/

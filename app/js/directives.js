@@ -1,7 +1,7 @@
 /* Directives */
 
 
-angular.module('portail-qualif.directives', []).
+angular.module('portal.directives', []).
   directive('favorite', ['Links', function(Links) {
 	"use strict";
 

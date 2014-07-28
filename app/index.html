@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html ng-app="portal">
+<head>
+	<title>Portail Qualif.</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<link href="style/app.less" type="text/css" rel="stylesheet/less">
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	  <![endif]-->
+	</head>
+	<body>
+
+		<div id="wrapper">
+
+			<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="index.html">Portail de qualification</a>
+				</div>
+				<!-- /.navbar-header -->
+
+
+				<ul class="nav navbar-top-links navbar-right" ui-view="headerView"></ul>
+				<!-- /.navbar-top-links -->
+				<div class="navbar-default navbar-static-side" role="navigation" ui-view="menuLeftView">
+					
+				</div>
+			</nav>
+
+			<div id="page-wrapper">
+				<div class="row">
+					<div class="col-lg-12">
+						<h1 class="page-header">Dashboard</h1>
+					</div>
+					<!-- /.col-lg-12 -->
+				</div>
+				<section id="favorites-section" class="favorites-section col-lg-12" ui-view="favoritesView" ></section>
+				<section id="jenkins-section" class="jenkins-section col-lg-6" ui-view="jenkinsView" ></section>
+				<section id="sonar-section" class="sonar-section col-lg-6" ui-view="sonarView" ></section>
+				<section id="feeds-section" class="feeds-section col-lg-12" ui-view="feedsView" ></section>
+				
+
+				<footer class="footer col-lg-12" role="contentinfo">
+					<div class="container">
+						<div class="links">
+							<ul class="buttons">
+								<li>
+									<iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=kepennar&amp;repo=portal&amp;size=large&amp;type=fork" allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="30px"></iframe>
+								</li>
+								
+							</ul>
+						</div>
+						<p>Designed and built with all the love in the world by <a href="https://twitter.com/kepennar">@kePennar</a>
+							<a href="https://twitter.com/kepennar" class="twitter-follow-button" data-show-screen-name="false" data-show-count="false" data-lang="en">@kePennar</a>
+							<!-- htmlmin:ignore -->
+							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+							</script>
+							<!-- htmlmin:ignore -->
+						</p>
+						<p>Code licensed under <a href="http://opensource.org/licenses/MIT" target="_blank">MIT</a></p>
+					</div>	
+				</div>
+			</footer>
+		</div>
+		<!-- /#page-wrapper -->
+		
+
+		<!-- Livereload script for development only (stripped during dist build) -->
+		<script src="http://localhost:35729/livereload.js" data-build="exclude"></script>
+
+		<!-- JS from Bower Components -->
+		<script src="bower_components/less.js/dist/less-1.6.2.js" data-build="exclude"></script>
+		<script src="bower_components/jquery/jquery.js"></script>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="bower_components/underscore/underscore.js"></script>
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/angular-route/angular-route.js"></script>
+		<script src="bower_components/angular-animate/angular-animate.js"></script>
+		<script src="bower_components/angular-resource/angular-resource.js"></script>
+		<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+		<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+		<script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+		<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
+		<script src="bower_components/jquery-ui/ui/minified/core.min.js"></script>
+		<script src="bower_components/jquery-ui/ui/minified/widget.min.js"></script>
+		<script src="bower_components/jquery-ui/ui/minified/mouse.min.js"></script>
+		<script src="bower_components/jquery-ui/ui/minified/draggable.min.js"></script>
+		<script src="bower_components/jquery-ui/ui/minified/droppable.min.js"></script>
+		<script src="bower_components/angular-dragdrop/src/angular-dragdrop.min.js"></script>
+		<!-- Add New Bower Component JS Above -->
+
+
+		<!-- Main App JS -->
+		<script src="js/services.js"></script>
+		<script src="js/controllers.js"></script>
+		<script src="js/directives.js"></script>
+		<script src="js/app.js"></script>
+		<!-- Add New Component JS Above --> 
+	</body>
+	</html>
