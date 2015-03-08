@@ -163,7 +163,7 @@ module.exports = function (grunt) {
 				dest: 'temp/js/app.full.js'
 			}
 		},
-		ngmin: {
+		ngAnnotate: {
 			main: {
 				src:'temp/js/app.full.js',
 				dest: 'temp/js/app.full.js'
