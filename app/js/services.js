@@ -106,28 +106,49 @@ angular.module('portal.services', [])
 	var getInterval = function() {
 		return jenkinsUpdateInterval;
 	};
+	
 	var consult = function() {
 		var deferredJobs = $q.defer();
 
 		var filteredJobs = [];
 		var now = Date.now();
 		var interval = 3600000 * hoursToShow;
-
-		$http.get(jenkinsUrl + "/api/json?tree=jobs[name,description,url,lastCompletedBuild[timestamp]]")
-		.then(function(result) {
-			_(result.data.jobs).each(function(job) {
-				if ((now - job.lastCompletedBuild.timestamp) < interval) {
-					$http.get(jenkinsUrl + "/job/" + job.name + "/lastCompletedBuild/api/json").success(function(jobDatas) {
+		/* 
+		 * Request and parse a specific job
+		 * If request fails, looks into potentiel "sub jobs"
+		 */
+		var queryJob = function(job) {
+			$http.get(job.url + "/lastCompletedBuild/api/json").then(
+				//success
+				function(jobDatas) {
+					if ((now - job.lastCompletedBuild.timestamp) < interval) {
 						jobDatas.name = job.name;
 						jobDatas.description = job.description;
 						jobDatas.configureUrl = job.url + "configure";
 						filteredJobs.push(jobDatas);
 						deferredJobs.notify("New Job");
-					});
+					}
+				},
+				//error
+				function() {
+					queryJobs(job.url)
 				}
-			});
-			deferredJobs.resolve(filteredJobs);
-		});
+			);
+		}
+
+		/**
+		 * Parse sub jobs
+		 */
+		var queryJobs = function(queryUrl) {
+			$http.get(queryUrl + "/api/json?tree=jobs[name,description,url,lastCompletedBuild[timestamp]]")
+			.then(function(result) {
+				_(result.data.jobs).each(queryJob);
+				deferredJobs.resolve(filteredJobs);
+				}
+			);	
+		}
+		queryJobs(jenkinsUrl);
+
 		return deferredJobs.promise;
 	};
 
